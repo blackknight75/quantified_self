@@ -15,17 +15,7 @@ app.get('/', (request, response) => {
 });
 
 app.get('/api/v1/foods', (request, response) => {
-  var id = request.params;
-  var name = app.locals.foods;
-  var calories = app.locals.calories;
-
-  if(!name || !calories){ return response.sendStatus(404) };
-
-  response.json({
-    id: id,
-    name: name,
-    calories: calories
-  });
+  FoodController.index(request, response)
 });
 
 if (!module.parent) {
