@@ -1,6 +1,8 @@
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
+const express        = require('express');
+const app            = express();
+const bodyParser     = require('body-parser');
+const md5            = require('md5')
+const FoodController = require('./lib/controllers/food-controller')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
