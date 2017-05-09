@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
     calories INTEGER,
     created_at TIMESTAMP,
     updated_at TIMESTAMP
-  )`
+  )`;
   return knex.raw(createQuery);
 };
 

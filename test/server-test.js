@@ -36,16 +36,21 @@ describe('Server', function(){
       });
     });
   });
-  describe('GET /api/v1/foods', function(){
+
+  describe('GET /api/v1/foods', () => {
     beforeEach((done) => {
-          database.raw('INSERT INTO food (name, calories, created_at, updated_at) VALUES (?, ?, ?, ?)', ['Banana', 100, new Date, new Date])
-          .then(() => done())
-    })
+      database.raw('INSERT INTO food (name, calories, created_at, updated_at) VALUES (?, ?, ?, ?)', ['Banana', 100, new Date, new Date])
+      .then(() => {
+        done();
+      });
+    });
 
     afterEach((done) => {
       database.raw('TRUNCATE food RESTART IDENTITY')
-      .then(() => done())
-    })
+      .then(() => {
+        done();
+      });
+    });
 
     it('should return all food items', (done) => {
       this.request.get('/api/v1/foods', (error, response) => {
@@ -57,19 +62,76 @@ describe('Server', function(){
 
         let parsedFood = JSON.parse(response.body)
 
-        assert.equal(parsedFood.id, id)
-        assert.equal(parsedFood.name, name)
-        assert.equal(parsedFood.calories, calories)
-        assert.ok(parsedFood.created_at)
+        assert.equal(parsedFood.id, id);
+        assert.equal(parsedFood.name, name);
+        assert.equal(parsedFood.calories, calories);
+        assert.ok(parsedFood.created_at);
 
         done();
-      })
-    })
+      });
+    });
+  });
 
+  describe('GET /api/v1/foods', () => {
     it('should return a 404 if resposne is not found', function(done){
       this.request.get('/api/v1/foods', function(error, response){
         if(error){ done(error) };
         assert.equal(response.statusCode, 404);
+        done();
+      });
+    });
+  });
+
+  describe('POST /api/v1/foods', () => {
+    beforeEach((done) => {
+      database.raw('INSERT INTO food (name, calories, created_at, updated_at) VALUES (?, ?, ?, ?)', ['Banana', 100, new Date, new Date])
+      .then(() => {
+        done();
+      });
+    });
+
+    afterEach((done) => {
+      database.raw('TRUNCATE food RESTART IDENTITY')
+      .then(() => {
+        done();
+      });
+    });
+
+    it('should create a new food', function(done){
+      this.request.post('/api/v1/foods', function(error, response){
+        var food_params = { name: 'Banana', calories: 100, created_at: new Date, updated_at: new Date }
+        this.request.post('api/v1/foods', { form: food_params }, function(error, resposne){
+          let parsedFood = JSON.parse(response.body.toString());
+
+          assert.equal(response.statusCode, 200);
+          assert.equal(response.parsedFood.id, food_params.id)
+          assert.equal(response.parsedFood.calories, food_params.calories)
+          assert.equal(response.parsedFood.id, food_params.created_at)
+          assert.equal(response.parsedFood.id, food_params.updated_at)
+        });
+      });
+    });
+  });
+
+  describe('GET /api/v1/foods/:id', () => {
+    beforeEach((done) => {
+      database.raw('INSERT INTO food (name, calories, created_at, updated_at) VALUES (?, ?, ?, ?)', ['Banana', 100, new Date, new Date])
+      .then(() => done())
+    });
+
+    afterEach((done) => {
+      database.raw('TRUNCATE food RESTART IDENTITY')
+      .then(() => done())
+    });
+
+    it('should return single food item', function(done){
+      this.request.get('/api/v1/foods/1', function(error, response){
+        if(error){ done(error) };
+
+        let parsedFood = JSON.parse(response.body.toString());
+        let item = parsedFood[0]
+        assert.equal(response.statusCode, 200);
+        assert.equal(item.id, 1)
         done();
       });
     });
