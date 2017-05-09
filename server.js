@@ -22,7 +22,7 @@ app.get('/api/v1/foods/:id', (request, response) => {
   FoodController.show(request, response)
 });
 
-app.post('/api/v1/foods', (request, resposne) => {
+app.post('/api/v1/foods', (request, response) => {
   FoodController.create(request, response)
 });
 
