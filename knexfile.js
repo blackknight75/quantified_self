@@ -4,7 +4,7 @@ module.exports = {
 
   development: {
     client: 'pg',
-    connection: 'postgres://localhost/food',
+    connection: 'postgres://localhost/quantified_self',
     migrations: {
       directory: './db/migrations'
     },
@@ -16,7 +16,7 @@ module.exports = {
 
   test: {
     client: 'pg',
-    connection:'postgres://localhost/food_test',
+    connection:'postgres://localhost/quantified_self_test',
     migrations: {
       directory: './db/migrations'
     },
