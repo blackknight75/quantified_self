@@ -8,7 +8,6 @@ const configuration = require('../knexfile')[environment]
 const database      = require('knex')(configuration)
 
 describe('Server', function(){
-  this.timeout(100000)
   before(function(done){
     this.port = 9876;
     this.server = app.listen(this.port, function(error, result){
