@@ -166,4 +166,25 @@ describe('Server', function(){
       });
     });
   });
+
+  describe('DELETE /api/v1/foods:id', () =>{
+    beforeEach(function(done) {
+      database.raw('INSERT INTO food (name, calories, created_at, updated_at) VALUES (?, ?, ?, ?)', ['Banana', 100, new Date, new Date])
+      .then(() => done())
+    });
+
+    afterEach(function(done) {
+      database.raw('TRUNCATE food RESTART IDENTITY')
+      .then(() => done())
+    });
+
+    it('should delete food item', function(done){
+      this.request.delete('/api/v1/foods/1', function(error, response){
+        if (error) { done(error); }
+
+        assert.equal(response.body, 'OK')
+        done();
+      });
+    });
+  });
 });
