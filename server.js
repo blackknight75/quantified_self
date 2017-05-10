@@ -12,19 +12,19 @@ app.locals.title = 'QS API'
 
 app.get('/', (request, response) => {
   response.send('API endpoints go here')
-});
+})
 
 app.get('/api/v1/foods', (request, response) => {
   FoodController.index(request, response)
-});
+})
 
 app.get('/api/v1/foods/:id', (request, response) => {
   FoodController.show(request, response)
-});
+})
 
 app.post('/api/v1/foods', (request, response) => {
   FoodController.create(request, response)
-});
+})
 
 app.patch('/api/v1/foods/:id', (request, response) => {
   FoodController.update(request, response)
@@ -32,7 +32,11 @@ app.patch('/api/v1/foods/:id', (request, response) => {
 
 app.delete('/api/v1/foods/:id', (request, response) => {
   FoodController.destroy(request, response)
-});
+})
+
+app.post('/api/v1/diaries', (request, response) => {
+  DiaryController.create(request, response)
+})
 
 if (!module.parent) {
   app.listen(app.get('port'), () => {
