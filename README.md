@@ -12,7 +12,7 @@
 ###### DELETE api/v1/foods/:id
 ###### GET api/v1/foods/search
 
-### Dairy
+### Diary
 
 ###### POST api/v1/diaries
 ###### GET api/v1/diaries/:id/meals
