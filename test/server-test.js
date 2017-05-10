@@ -8,6 +8,7 @@ const configuration = require('../knexfile')[environment]
 const database      = require('knex')(configuration)
 
 describe('Server', function(){
+  this.timeout(100000)
   before(function(done){
     this.port = 9876;
     this.server = app.listen(this.port, function(error, result){
@@ -162,6 +163,27 @@ describe('Server', function(){
 
         assert.equal(newFood[0].name, 'Lemon')
         assert.equal(newFood[0].calories, 120)
+        done();
+      });
+    });
+  });
+
+  describe('DELETE /api/v1/foods:id', () =>{
+    beforeEach(function(done) {
+      database.raw('INSERT INTO food (name, calories, created_at, updated_at) VALUES (?, ?, ?, ?)', ['Banana', 100, new Date, new Date])
+      .then(() => done())
+    });
+
+    afterEach(function(done) {
+      database.raw('TRUNCATE food RESTART IDENTITY')
+      .then(() => done())
+    });
+
+    it('should delete food item', function(done){
+      this.request.delete('/api/v1/foods/1', function(error, response){
+        if (error) { done(error); }
+
+        assert.equal(response.body, 'OK')
         done();
       });
     });
