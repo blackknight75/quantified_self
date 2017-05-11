@@ -1,9 +1,12 @@
-const express        = require('express');
-const app            = express();
-const bodyParser     = require('body-parser');
+const express        = require('express')
+const app            = express()
+const bodyParser     = require('body-parser')
 const md5            = require('md5')
+const cors           = require('cors')
 const FoodController = require('./lib/controllers/food-controller')
 const DiaryController = require('./lib/controllers/diary-controller')
+
+app.use(cors({origin: '*'}))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -1,7 +1,6 @@
 const assert = require('chai').assert;
 const app = require('../server');
 const request = require('request');
-const pry = require('pryjs');
 
 const environment   = process.env.NODE_ENV || 'test'
 const configuration = require('../knexfile')[environment]
@@ -183,6 +182,29 @@ describe('Server', function(){
         if (error) { done(error); }
 
         assert.equal(response.body, 'OK')
+        done();
+      });
+    });
+  });
+
+  describe('GET /api/v1/diaries/:id/meals', () =>{
+    beforeEach(function(done) {
+      database.raw('INSERT INTO diaries (date, created_at, updated_at) VALUES (?, ?, ?)', ['2017-06-20', new Date, new Date])
+      database.raw('INSERT INTO meals (category, diary_id) VALUES (?, ?)', ["Lunch", 1])
+      .then(() => done())
+    });
+
+    afterEach(function(done) {
+      database.raw('TRUNCATE diaries RESTART IDENTITY')
+      database.raw('TRUNCATE meals RESTART IDENTITY')
+      .then(() => done())
+    });
+
+    it('should get meals for specific diary day', function(done){
+      this.request.get('/api/v1/diaries/1/meals', function(error, response){
+        if (error) { done(error); }
+
+        assert.equal(response.body, '[{"id":1,"category":"Lunch","diary_id":1}]')
         done();
       });
     });
