@@ -187,6 +187,27 @@ describe('Server', function(){
     });
   });
 
+  describe('GET /api/v1/diaries/:id', () =>{
+    beforeEach(function(done) {
+      database.raw('INSERT INTO diaries (date, created_at, updated_at) VALUES (?, ?, ?)', ['2017-06-20', new Date, new Date])
+      .then(() => done())
+    });
+
+    afterEach(function(done) {
+      database.raw('TRUNCATE diaries RESTART IDENTITY')
+      .then(() => done())
+    });
+
+    it('should return single diary', function(done){
+      this.request.get('/api/v1/diaries/1', function(error, response){
+        if (error) { done(error); }
+
+        assert.ok(response.body)
+        done();
+      })
+    })
+  })
+
   describe('GET /api/v1/diaries/:id/meals', () =>{
     beforeEach(function(done) {
       database.raw('INSERT INTO diaries (date, created_at, updated_at) VALUES (?, ?, ?)', ['2017-06-20', new Date, new Date])

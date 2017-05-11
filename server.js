@@ -20,11 +20,18 @@ app.get('/', (request, response) => {
     GET /api/v1/foods/:id<br>
     POST /api/v1/foods<br>
     PATCH /api/v1/foods/:id<br>
-    DELETE /api/v1/foods/:id<br><br>
+    DELETE /api/v1/foods/:id<br>
+    GET /api/v1/foods/search<br><br>
 
     Diary endpoints:<br><br>
     POST /api/v1/diaries<br>
-    GET /api/v1/diares/meals
+    GET /api/v1/diares/:id/meals<br>
+    UPDATE api/v1/diaries/:id/meals/:id<br>
+    POST api/v1/diaries/:id/meals/:id<br><br>
+
+    Meal endpoints:<br><br>
+    GET api/v1/meals<br>
+    GET api/v1/meals/:id<br>
     `)
 })
 
@@ -50,6 +57,10 @@ app.delete('/api/v1/foods/:id', (request, response) => {
 
 app.post('/api/v1/diaries', (request, response) => {
   DiaryController.create(request, response)
+})
+
+app.get('/api/v1/diaries/:id', (request, response) => {
+  DiaryController.show(request, response)
 })
 
 app.get('/api/v1/diaries/:id/meals', (request, response) => {
