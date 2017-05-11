@@ -59,6 +59,10 @@ app.post('/api/v1/diaries', (request, response) => {
   DiaryController.create(request, response)
 })
 
+app.get('/api/v1/diaries/:id', (request, response) => {
+  DiaryController.show(request, response)
+})
+
 app.get('/api/v1/diaries/:id/meals', (request, response) => {
   DiaryController.getMeals(request, response)
 })
