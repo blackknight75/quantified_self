@@ -59,7 +59,7 @@ app.post('/api/v1/diaries', (request, response) => {
   DiaryController.create(request, response)
 })
 
-app.get('/api/v1/diaries/:id', (request, response) => {
+app.get('/api/v1/diaries/:date', (request, response) => {
   DiaryController.show(request, response)
 })
 
