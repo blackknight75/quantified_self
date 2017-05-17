@@ -5,6 +5,7 @@ const md5            = require('md5')
 const cors           = require('cors')
 const FoodController = require('./lib/controllers/food-controller')
 const DiaryController = require('./lib/controllers/diary-controller')
+const MealFoodController = require('./lib/controllers/meal-food-controller')
 
 app.use(cors({origin: '*'}))
 
@@ -65,6 +66,10 @@ app.get('/api/v1/diaries/:date', (request, response) => {
 
 app.get('/api/v1/diaries/:id/meals', (request, response) => {
   DiaryController.getMeals(request, response)
+})
+
+app.delete('/api/v1/meal_food/:id', (request, response) => {
+  MealFoodController.destroy(request, response)
 })
 
 if (!module.parent) {
