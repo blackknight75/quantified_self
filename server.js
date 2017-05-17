@@ -6,6 +6,7 @@ const cors           = require('cors')
 const FoodController = require('./lib/controllers/food-controller')
 const DiaryController = require('./lib/controllers/diary-controller')
 const MealFoodController = require('./lib/controllers/meal-food-controller')
+const pry = require('pryjs')
 
 app.use(cors({origin: '*'}))
 
@@ -58,6 +59,10 @@ app.delete('/api/v1/foods/:id', (request, response) => {
 
 app.post('/api/v1/diaries', (request, response) => {
   DiaryController.create(request, response)
+})
+
+app.get("/api/v1/diaries/get-id/:date", (request, response) => {
+  DiaryController.getDiaryId(request, response)
 })
 
 app.get('/api/v1/diaries/:date', (request, response) => {
