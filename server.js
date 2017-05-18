@@ -1,11 +1,13 @@
-const express        = require('express')
-const app            = express()
-const bodyParser     = require('body-parser')
-const md5            = require('md5')
-const cors           = require('cors')
-const FoodController = require('./lib/controllers/food-controller')
-const DiaryController = require('./lib/controllers/diary-controller')
+const express            = require('express')
+const app                = express()
+const bodyParser         = require('body-parser')
+const md5                = require('md5')
+const cors               = require('cors')
+const FoodController     = require('./lib/controllers/food-controller')
+const DiaryController    = require('./lib/controllers/diary-controller')
 const MealFoodController = require('./lib/controllers/meal-food-controller')
+const MealController     = require('./lib/controllers/meal-controller')
+const pry = require('pryjs')
 
 app.use(cors({origin: '*'}))
 
@@ -60,12 +62,20 @@ app.post('/api/v1/diaries', (request, response) => {
   DiaryController.create(request, response)
 })
 
+app.get("/api/v1/diaries/get-id/:date", (request, response) => {
+  DiaryController.getDiaryId(request, response)
+})
+
 app.get('/api/v1/diaries/:date', (request, response) => {
   DiaryController.show(request, response)
 })
 
 app.get('/api/v1/diaries/:id/meals', (request, response) => {
   DiaryController.getMeals(request, response)
+})
+
+app.post('/api/v1/meals', (request, response) => {
+  MealController.create(request, response)
 })
 
 app.delete('/api/v1/meal_food/:id', (request, response) => {
